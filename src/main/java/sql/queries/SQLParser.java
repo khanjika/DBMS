@@ -3,8 +3,9 @@ import java.util.regex.Pattern;
 
 public class SQLParser {
 	
-	public String queryProcessor(String query) {
+	public String queryProcessor(String query, String username) {
 		System.out.println(query);
+		String currentDb = "";
 		Pattern create_pattern = Pattern.compile("create", Pattern.CASE_INSENSITIVE);
 		Pattern select_pattern = Pattern.compile("select", Pattern.CASE_INSENSITIVE);
 		Pattern update_pattern = Pattern.compile("update", Pattern.CASE_INSENSITIVE);
@@ -14,7 +15,7 @@ public class SQLParser {
 	    	System.out.println("create pattern found!");
 	    	if (database_pattern.matcher(query).find()) {
 	    		CreateDatabase createDatabase = new CreateDatabase();
-	    		createDatabase.parseQuery(query);	
+	    		createDatabase.parseQuery(query, username);	
 	    		
 	    	} else {
 	    		CreateTable createTable = new CreateTable();

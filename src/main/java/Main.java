@@ -19,13 +19,14 @@ public class Main {
         String userInput = myObj.nextLine();  // Read user input
         if(Integer.parseInt(userInput) == 1) {
         	System.out.println("logged in ");
+        	String Username = "user1";
         	Scanner queryInput = new Scanner(System.in);
         	System.out.println("Enter SQL query to Create/Update/Insert/Delete in Database tables!");
         	
         	String sqlQuery = queryInput.nextLine();
         	
         	SQLParser sqlparser = new SQLParser();
-        	sqlparser.queryProcessor(sqlQuery);
+        	sqlparser.queryProcessor(sqlQuery, Username);
         	queryInput.close();
         	
         } else if (Integer.parseInt(userInput) == 2) {
