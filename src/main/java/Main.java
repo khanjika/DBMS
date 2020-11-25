@@ -1,13 +1,6 @@
-import logging.events.*;
-import java.util.Scanner; 
+import java.util.Scanner;
 
-import logging.general.DatabaseLogger;
-import logging.general.ICustomLogger;
-import logging.general.QueryExecutionLogger;
-import sql.queries.SQLParser;
-
-import java.util.HashMap;
-import java.util.Map;
+import sql.QueryEngine;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,8 +18,8 @@ public class Main {
         	
         	String sqlQuery = queryInput.nextLine();
         	
-        	SQLParser sqlparser = new SQLParser();
-        	sqlparser.queryProcessor(sqlQuery, Username);
+        	QueryEngine queryEngine = new QueryEngine();
+			queryEngine.run(sqlQuery, Username);
         	queryInput.close();
         	
         } else if (Integer.parseInt(userInput) == 2) {
