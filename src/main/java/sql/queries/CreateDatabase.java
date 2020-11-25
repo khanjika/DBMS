@@ -22,7 +22,7 @@ public class CreateDatabase {
 	}
 	
 	public void createDBdir(String[] queryArr, String username) {
-		String path = "/Users/prabhjotkaur/Documents/dbms-5408/src/main/java/dataFiles/";
+		String path = "src/main/java/dataFiles/";
 		path = path + queryArr[2];
 		File file = new File(path);
 		System.out.println(path);
@@ -39,7 +39,7 @@ public class CreateDatabase {
 		databaseExists = false;
 		JSONParser parser = new JSONParser();
 		try (FileReader reader = new FileReader(
-				"/Users/prabhjotkaur/Documents/dbms-5408/src/main/java/dataFiles/databases.json"))
+				"src/main/java/dataFiles/databases.json"))
         {
             //Read JSON file
             Object obj = parser.parse(reader);
@@ -73,7 +73,7 @@ public class CreateDatabase {
 
 		public void writeDBFile(JSONArray dblist) {
 		try (FileWriter file = new FileWriter(
-				"/Users/prabhjotkaur/Documents/dbms-5408/src/main/java/dataFiles/databases.json")) {
+				"src/main/java/dataFiles/databases.json")) {
 			 
             file.write(dblist.toJSONString());
             file.flush();
