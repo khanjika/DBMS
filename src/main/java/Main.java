@@ -1,36 +1,37 @@
 import java.util.Scanner;
 
+import login.Login;
 import sql.QueryEngine;
+import sun.rmi.runtime.Log;
 
 public class Main {
-    public static void main(String[] args) {
-    	
-    	Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("For login enter: 1 ");
-        System.out.println("For creating new user enter: 2 ");
+	public static void main(String[] args) {
 
-        String userInput = myObj.nextLine();  // Read user input
-        if(Integer.parseInt(userInput) == 1) {
-        	System.out.println("logged in ");
-        	String Username = "user1";
-        	Scanner queryInput = new Scanner(System.in);
-        	System.out.println("Enter SQL query to Create/Update/Insert/Delete in Database tables!");
-        	
-        	String sqlQuery = queryInput.nextLine();
-        	
-        	QueryEngine queryEngine = new QueryEngine();
-			queryEngine.run(sqlQuery, Username);
-        	queryInput.close();
-        	
-        } else if (Integer.parseInt(userInput) == 2) {
-        	System.out.println("create new user");
-        } else {
-        	System.out.println("Invalid input");
-        }
-        myObj.close();
-        
-        
-        //General Logs
+		Scanner sc = new Scanner(System.in);
+
+		Login login = new Login();
+		System.out.println("Please enter UserName:");
+		String userName = sc.nextLine();
+
+		System.out.println("Please enter Password:");
+		String password = sc.nextLine();
+
+		String loggedInUser = login.verification(userName, password);
+		System.out.println(loggedInUser);
+
+		if (loggedInUser != null) {
+
+			Scanner queryInput = new Scanner(System.in);
+			System.out.println("Enter SQL query to Create/Update/Insert/Delete in Database tables!");
+
+			String sqlQuery = queryInput.nextLine();
+
+			QueryEngine queryEngine = new QueryEngine();
+			queryEngine.run(sqlQuery, loggedInUser);
+			queryInput.close();
+		}
+
+		// General Logs
 
 //        ICustomLogger queryExecutionLogger = new QueryExecutionLogger("SELECT * FROM users", (float) 1.00, 1);
 //        queryExecutionLogger.log();
@@ -56,5 +57,5 @@ public class Main {
 //
 //        IEventListener crashListener = new CrashListener();
 //        crashListener.recordEvent();
-    }
+	}
 }
