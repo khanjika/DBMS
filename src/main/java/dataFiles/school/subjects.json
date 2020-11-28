@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "rows": 0,
+    "createdAt": "2020-11-28 13:30:00"
+  },
+  "columns": {
+    "subjectID": {"dataType": "integer", "length": 11},
+    "title": {"dataType": "string", "length": 255}
+  },
+  "indexes": {
+    "subjectID": {"type":"primary", "autoIncrement": "true"}
+  },
+  "data": [{
+    "subjectID": 1,
+    "title": "Subject One"
+  }]
+}

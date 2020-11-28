@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "rows": 1,
+    "createdAt": "2020-11-28 13:30:00"
+  },
+  "columns": {
+    "studentID": {"dataType": "integer", "length": 11},
+    "firstName": {"dataType": "string", "length": 125},
+    "lastName": {"dataType": "string", "length": 125},
+    "email": {"dataType": "string", "length": 60}
+  },
+  "indexes": {
+    "studentID": {"type":"primary", "autoIncrement": "true"},
+    "email": {"type":"unique"},
+    "lastName": {"type":"index"}
+  },
+  "data": [{
+    "studentID": 1,
+    "firstName": "Student",
+    "lastName": "One",
+    "email": "sudent.one@email.com"
+  }]
+}
