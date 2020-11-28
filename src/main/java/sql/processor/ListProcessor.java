@@ -14,6 +14,8 @@ public class ListProcessor implements IProcessor {
     static ListProcessor instance = null;
 
     private boolean databaseExists = false;
+    private String username = null;
+    private String database = null;
 
     public static ListProcessor instance(){
         if(instance == null){
@@ -23,18 +25,21 @@ public class ListProcessor implements IProcessor {
     }
 
     @Override
-    public boolean process(InternalQuery internalQuery, String username) {
+    public boolean process(InternalQuery internalQuery, String username, String database) {
+        this.username = username;
+        this.database = database;
+
         if(internalQuery.getSubject().equals("databases")){
-            return listDatabases(internalQuery,username);
+            return listDatabases(internalQuery);
         }else if(internalQuery.getSubject().equals("tables")){
-            return listTables(internalQuery,username);
+            return listTables(internalQuery);
         }else{
             System.out.println("Undefined item.");
             return false;
         }
     }
 
-    private boolean listDatabases(InternalQuery internalQuery, String username){
+    private boolean listDatabases(InternalQuery internalQuery){
         JSONParser parser = new JSONParser();
         try (FileReader reader = new FileReader(DB_PATH)) {
             Object obj = parser.parse(reader);
@@ -53,12 +58,11 @@ public class ListProcessor implements IProcessor {
         }
     }
 
-    private boolean listTables(InternalQuery internalQuery, String username){
+    private boolean listTables(InternalQuery internalQuery){
         if(internalQuery.getOption() == null){
             System.out.println("Please select a Database to list Tables.");
             return false;
         }else {
-            String database = internalQuery.getOption();
             File dbPath = new File(BASE_PATH + database);
             String tables[] = dbPath.list();
             for (int i = 0; i < tables.length; i++) {

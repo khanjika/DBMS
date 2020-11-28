@@ -17,7 +17,6 @@ public class SelectParser implements IParser {
 
     @Override
     public InternalQuery parse(String query) {
-        query = query.toLowerCase();
         Pattern pattern = Pattern.compile("select\\s(.*?)from\\s(.*?)(where\\s(.*?))?;", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(query);
         matcher.find();
@@ -28,8 +27,8 @@ public class SelectParser implements IParser {
 
         InternalQuery internalQuery = new InternalQuery();
         internalQuery.setOption(option);
-        internalQuery.setOption(subject);
-        internalQuery.setOption(condition);
+        internalQuery.setSubject(subject);
+        internalQuery.setCondition(condition);
 
         return internalQuery;
     }

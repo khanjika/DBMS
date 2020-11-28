@@ -3,5 +3,5 @@ package sql.processor;
 import sql.InternalQuery;
 
 public interface IProcessor {
-    boolean process(InternalQuery query, String Username);
+    boolean process(InternalQuery query, String username, String database);
 }

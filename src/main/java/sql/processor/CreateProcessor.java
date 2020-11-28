@@ -14,6 +14,8 @@ public class CreateProcessor implements IProcessor {
     static CreateProcessor instance = null;
 
     private boolean databaseExists = false;
+    private String username = null;
+    private String database = null;
 
     public static CreateProcessor instance(){
         if(instance == null){
@@ -23,15 +25,17 @@ public class CreateProcessor implements IProcessor {
     }
 
     @Override
-    public boolean process(InternalQuery internalQuery, String username) {
+    public boolean process(InternalQuery internalQuery, String username, String database) {
+        this.username = username;
+        this.database = database;
         if(internalQuery.getSubject().equals("database")){
-            return createDB(internalQuery,username);
+            return createDB(internalQuery);
         }else{
-            return createTable(internalQuery,username);
+            return createTable(internalQuery);
         }
     }
 
-    private boolean createDB(InternalQuery internalQuery, String username) {
+    private boolean createDB(InternalQuery internalQuery) {
         String name = internalQuery.getOption();
         String path = BASE_PATH + name;
         File file = new File(path);
@@ -39,19 +43,19 @@ public class CreateProcessor implements IProcessor {
         boolean bool = file.mkdir();
         if(bool){
             System.out.println("DB created successfully");
-            parseDBFile(name, username);
+            parseDBFile(name);
         }else{
             System.out.println("Sorry couldn’t create DB");
         }
         return true;
     }
 
-    private boolean createTable(InternalQuery internalQuery, String username) {
+    private boolean createTable(InternalQuery internalQuery) {
 //        ToDo:: create table logic
         return true;
     }
 
-    private void parseDBFile(String name, String username) {
+    private void parseDBFile(String name) {
         databaseExists = false;
         JSONParser parser = new JSONParser();
         try (FileReader reader = new FileReader(DB_PATH)) {

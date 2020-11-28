@@ -1,10 +1,10 @@
 package sql;
 
 public class InternalQuery {
-    private String action = null;
-    private String subject = null;
-    private String option = null;
-    private String condition = null;
+    private String action = "";
+    private String subject = "";
+    private String option = "";
+    private String condition = "";
 
     public String getAction() {
         return action;
@@ -19,6 +19,9 @@ public class InternalQuery {
     }
 
     public void setSubject(String subject) {
+        if(subject == null){
+            subject = "";
+        }
         this.subject = subject;
     }
 
@@ -27,6 +30,9 @@ public class InternalQuery {
     }
 
     public void setOption(String option) {
+        if(option == null){
+            option = "";
+        }
         this.option = option;
     }
 
@@ -35,6 +41,9 @@ public class InternalQuery {
     }
 
     public void setCondition(String condition) {
+        if(condition == null){
+            condition = "";
+        }
         this.condition = condition;
     }
 }
