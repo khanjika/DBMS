@@ -1,7 +1,7 @@
 package sql.processor;
 
-import sql.Query;
+import sql.InternalQuery;
 
 public interface IProcessor {
-    boolean process(Query query, String Username);
+    boolean process(InternalQuery query, String Username);
 }

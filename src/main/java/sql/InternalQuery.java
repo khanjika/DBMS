@@ -1,6 +1,6 @@
 package sql;
 
-public class Query {
+public class InternalQuery {
     private String action = null;
     private String subject = null;
     private String option = null;

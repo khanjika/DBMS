@@ -1,6 +1,6 @@
 package sql.processor;
 
-import sql.Query;
+import sql.InternalQuery;
 
 public class SelectProcessor implements IProcessor {
     static SelectProcessor instance = null;
@@ -13,7 +13,7 @@ public class SelectProcessor implements IProcessor {
     }
 
     @Override
-    public boolean process(Query query, String Username) {
+    public boolean process(InternalQuery query, String Username) {
         String table = query.getSubject();
         String[] columns = query.getOption().split(",");
         String[] conditions = query.getCondition().split(",");

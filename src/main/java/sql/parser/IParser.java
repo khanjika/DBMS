@@ -1,7 +1,7 @@
 package sql.parser;
 
-import sql.Query;
+import sql.InternalQuery;
 
 public interface IParser {
-    Query parse(String query);
+    InternalQuery parse(String query);
 }

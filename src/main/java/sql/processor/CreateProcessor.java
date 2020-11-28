@@ -4,7 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import sql.Query;
+import sql.InternalQuery;
 
 import java.io.*;
 
@@ -23,35 +23,35 @@ public class CreateProcessor implements IProcessor {
     }
 
     @Override
-    public boolean process(Query queryObj, String username) {
-        if(queryObj.getSubject().equals("database")){
-            return createDB(queryObj,username);
+    public boolean process(InternalQuery internalQuery, String username) {
+        if(internalQuery.getSubject().equals("database")){
+            return createDB(internalQuery,username);
         }else{
-            return createTable(queryObj,username);
+            return createTable(internalQuery,username);
         }
     }
 
-    private boolean createDB(Query queryObj, String username) {
-        String dbName = queryObj.getOption();
-        String path = BASE_PATH + dbName;
+    private boolean createDB(InternalQuery internalQuery, String username) {
+        String name = internalQuery.getOption();
+        String path = BASE_PATH + name;
         File file = new File(path);
         System.out.println(path);
         boolean bool = file.mkdir();
         if(bool){
             System.out.println("DB created successfully");
-            parseDBFile(dbName, username);
+            parseDBFile(name, username);
         }else{
             System.out.println("Sorry couldn’t create DB");
         }
         return true;
     }
 
-    private boolean createTable(Query queryObj, String username) {
+    private boolean createTable(InternalQuery internalQuery, String username) {
 //        ToDo:: create table logic
         return true;
     }
 
-    private void parseDBFile(String dbName, String username) {
+    private void parseDBFile(String name, String username) {
         databaseExists = false;
         JSONParser parser = new JSONParser();
         try (FileReader reader = new FileReader(DB_PATH)) {
@@ -63,7 +63,7 @@ public class CreateProcessor implements IProcessor {
 
             dblist.forEach(db -> {
                 System.out.println(db);
-                if(((JSONObject) db).get("dbName") == dbName) {
+                if(((JSONObject) db).get("name") == name) {
                     if (((JSONObject) db).get("username") == username) {
                         databaseExists = true;
                     }
@@ -71,7 +71,7 @@ public class CreateProcessor implements IProcessor {
             });
             if(!databaseExists) {
                 JSONObject dbObj = new JSONObject();
-                dbObj.put("dbName", dbName);
+                dbObj.put("name", name);
                 dbObj.put("username", username);
                 dblist.add(dbObj);
                 writeDBFile(dblist);

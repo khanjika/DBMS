@@ -1,37 +1,56 @@
 package sql;
 
 import sql.parser.CreateParser;
+import sql.parser.ListParser;
 import sql.parser.SelectParser;
+import sql.parser.UseParser;
 import sql.processor.CreateProcessor;
+import sql.processor.ListProcessor;
 import sql.processor.SelectProcessor;
+import sql.processor.UseProcessor;
 
 public class QueryEngine {
-	
+	private String database = null;
+
 	public void run(String query, String username) {
 		query = query.toLowerCase();
-		Query queryObj = null;
+		InternalQuery internalQuery = null;
 		String action = query.replaceAll(" .*", "");
 		boolean success = false;
 		switch (action){
+			case "use":
+				internalQuery = UseParser.instance().parse(query);
+				UseProcessor useProcessor = UseProcessor.instance();
+				useProcessor.process(internalQuery,username);
+				database = useProcessor.getDatabase();
+				break;
+			case "list":
+				internalQuery = ListParser.instance().parse(query);
+				internalQuery.setOption(database);
+				ListProcessor.instance().process(internalQuery,username);
+				break;
 			case "create":
-				queryObj = CreateParser.instance().parse(query);
-				CreateProcessor.instance().process(queryObj,username);
+				internalQuery = CreateParser.instance().parse(query);
+				CreateProcessor.instance().process(internalQuery,username);
+				break;
+			case "insert":
+//				internalQuery = InsertParser.instance().parse(query);
+//				InsertProcessor.instance().process(internalQuery,username);
 				break;
 			case "select":
-				queryObj = SelectParser.instance().parse(query);
-				SelectProcessor.instance().process(queryObj,username);
+				internalQuery = SelectParser.instance().parse(query);
+				SelectProcessor.instance().process(internalQuery,username);
 				break;
 			case "update":
-//				queryObj = UpdateParser.instance().parse(query);
-//				UpdateProcessor.instance().process(queryObj,username);
+//				internalQuery = UpdateParser.instance().parse(query);
+//				UpdateProcessor.instance().process(internalQuery,username);
 				break;
 			case "delete":
-//				queryObj = DeleteParser.instance().parse(query);
-//				DeleteProcessor.instance().process(queryObj,username);
+//				internalQuery = DeleteParser.instance().parse(query);
+//				DeleteProcessor.instance().process(internalQuery,username);
 				break;
 			default:
 				System.out.println("invalid query!");
 		}
 	}
-
 }

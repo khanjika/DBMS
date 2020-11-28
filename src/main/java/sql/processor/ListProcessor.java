@@ -1,0 +1,70 @@
+package sql.processor;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import sql.InternalQuery;
+
+import java.io.*;
+
+public class ListProcessor implements IProcessor {
+    String BASE_PATH = "src/main/java/dataFiles/";
+    String DB_PATH = "src/main/java/dataFiles/databases.json";
+    static ListProcessor instance = null;
+
+    private boolean databaseExists = false;
+
+    public static ListProcessor instance(){
+        if(instance == null){
+            instance = new ListProcessor();
+        }
+        return instance;
+    }
+
+    @Override
+    public boolean process(InternalQuery internalQuery, String username) {
+        if(internalQuery.getSubject().equals("databases")){
+            return listDatabases(internalQuery,username);
+        }else if(internalQuery.getSubject().equals("tables")){
+            return listTables(internalQuery,username);
+        }else{
+            System.out.println("Undefined item.");
+            return false;
+        }
+    }
+
+    private boolean listDatabases(InternalQuery internalQuery, String username){
+        JSONParser parser = new JSONParser();
+        try (FileReader reader = new FileReader(DB_PATH)) {
+            Object obj = parser.parse(reader);
+            JSONArray dblist = (JSONArray) obj;
+            dblist.forEach(db -> {
+                JSONObject row = (JSONObject)db;
+                System.out.println(row.get("name"));
+            });
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean listTables(InternalQuery internalQuery, String username){
+        if(internalQuery.getOption() == null){
+            System.out.println("Please select a Database to list Tables.");
+            return false;
+        }else {
+            String database = internalQuery.getOption();
+            File dbPath = new File(BASE_PATH + database);
+            String tables[] = dbPath.list();
+            for (int i = 0; i < tables.length; i++) {
+                System.out.println(tables[i].replace(".json", ""));
+            }
+            return true;
+        }
+    }
+}

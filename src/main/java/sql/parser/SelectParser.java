@@ -1,6 +1,6 @@
 package sql.parser;
 
-import sql.Query;
+import sql.InternalQuery;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +16,7 @@ public class SelectParser implements IParser {
     }
 
     @Override
-    public Query parse(String query) {
+    public InternalQuery parse(String query) {
         query = query.toLowerCase();
         Pattern pattern = Pattern.compile("select\\s(.*?)from\\s(.*?)(where\\s(.*?))?;", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(query);
@@ -26,11 +26,11 @@ public class SelectParser implements IParser {
         String subject = matcher.group(2);
         String condition = matcher.group(4);
 
-        Query queryObj = new Query();
-        queryObj.setOption(option);
-        queryObj.setOption(subject);
-        queryObj.setOption(condition);
+        InternalQuery internalQuery = new InternalQuery();
+        internalQuery.setOption(option);
+        internalQuery.setOption(subject);
+        internalQuery.setOption(condition);
 
-        return queryObj;
+        return internalQuery;
     }
 }
