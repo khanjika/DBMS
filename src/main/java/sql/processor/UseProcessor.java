@@ -5,6 +5,7 @@ import sql.InternalQuery;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class UseProcessor implements IProcessor {
     String BASE_PATH = "src/main/java/dataFiles/";
@@ -36,6 +37,7 @@ public class UseProcessor implements IProcessor {
         this.database = newDatabase;
         String origPath = new File("").getAbsolutePath();
         Path path = Path.of(origPath+"/"+BASE_PATH + this.database);
+        //Path path = Paths.get ("src/main/java/dataFiles/" + database);
         if (Files.exists(path)) {
             return true;
         }else{
