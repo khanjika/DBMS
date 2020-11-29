@@ -21,14 +21,14 @@ public class SelectParser implements IParser {
         Matcher matcher = pattern.matcher(query);
         matcher.find();
 
-        String option = matcher.group(1);
-        String subject = matcher.group(2);
-        String condition = matcher.group(4);
+        String[] columns = matcher.group(1).split(",");
+        String table = matcher.group(2);
+        String[] conditions = matcher.group(4).split(",");
 
         InternalQuery internalQuery = new InternalQuery();
-        internalQuery.setOption(option);
-        internalQuery.setSubject(subject);
-        internalQuery.setCondition(condition);
+        internalQuery.set("columns",columns);
+        internalQuery.set("table",table);
+        internalQuery.set("conditions",conditions);
 
         return internalQuery;
     }

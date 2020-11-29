@@ -1,12 +1,8 @@
 package sql.processor;
 
-import org.json.simple.parser.ParseException;
 import sql.InternalQuery;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -33,8 +29,12 @@ public class UseProcessor implements IProcessor {
     public boolean process(InternalQuery query, String username, String database) {
         this.username = username;
         this.database = database;
+        String newDatabase = (String) query.get("database");
+        if(this.database != null){
+            System.out.println("Changing database from "+ this.database +" to "+ newDatabase );
+        }
+        this.database = newDatabase;
         String origPath = new File("").getAbsolutePath();
-        this.database = query.getSubject();
         Path path = Path.of(origPath+"/"+BASE_PATH + this.database);
         if (Files.exists(path)) {
             return true;

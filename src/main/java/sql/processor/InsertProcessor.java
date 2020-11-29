@@ -7,19 +7,21 @@ import org.json.simple.parser.ParseException;
 import sql.InternalQuery;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 
-public class SelectProcessor implements IProcessor {
+public class InsertProcessor implements IProcessor {
     String BASE_PATH = "src/main/java/dataFiles/";
     String DB_PATH = "src/main/java/dataFiles/databases.json";
-    static SelectProcessor instance = null;
+    static InsertProcessor instance = null;
 
     private String username = null;
     private String database = null;
 
-    public static SelectProcessor instance(){
+    public static InsertProcessor instance(){
         if(instance == null){
-            instance = new SelectProcessor();
+            instance = new InsertProcessor();
         }
         return instance;
     }
@@ -31,24 +33,29 @@ public class SelectProcessor implements IProcessor {
 
         String table = (String) query.get("table");
         String[] columns = (String[]) query.get("columns");
-        String[] conditions = (String[]) query.get("conditions");
+        String[] values = (String[]) query.get("values");
+
+        if(columns.length != values.length){
+            System.out.println("Invalid columns and values pair.");
+            return false;
+        }
 
         String path = BASE_PATH+database+"/"+table+".json";
         JSONObject jsonObject = readFile(path);
+        JSONArray data = (JSONArray) jsonObject.get("data");
+        JSONObject row = new JSONObject();
+        for(int i=0; i< columns.length;i++){
+            row.put(columns[i],values[i]);
+        }
+        data.add(row);
+        jsonObject.remove("data");
+        jsonObject.put("data",data);
 
-        for (String column: columns) {
-            System.out.print(column+" | ");
+        try (Writer out = new FileWriter(path)) {
+            out.write(jsonObject.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println();
-        JSONArray rows = (JSONArray) jsonObject.get("data");
-        for(int i=0;i<rows.size();i++){
-            JSONObject row = (JSONObject) rows.get(i);
-            for (String column: columns) {
-                column = column.replace(" ","");
-                System.out.print(row.get(column)+" | ");
-            }
-        }
-        System.out.println();
         return true;
     }
 

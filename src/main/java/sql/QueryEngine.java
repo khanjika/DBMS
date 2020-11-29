@@ -1,9 +1,6 @@
 package sql;
 
-import sql.parser.CreateParser;
-import sql.parser.ListParser;
-import sql.parser.SelectParser;
-import sql.parser.UseParser;
+import sql.parser.*;
 import sql.processor.CreateProcessor;
 import sql.processor.ListProcessor;
 import sql.processor.SelectProcessor;
@@ -29,20 +26,28 @@ public class QueryEngine {
 				ListProcessor.instance().process(internalQuery,username,database);
 				break;
 			case "create":
-				internalQuery = CreateParser.instance().parse(query);
-				CreateProcessor.instance().processCreateQuery(internalQuery,query,username,database);
+				if(checkDbSelected()){
+					internalQuery = CreateParser.instance().parse(query);
+					CreateProcessor.instance().processCreateQuery(internalQuery,query,username,database);
+				}
 				break;
 			case "insert":
-//				internalQuery = InsertParser.instance().parse(query);
-//				InsertProcessor.instance().process(internalQuery,username,database);
+				if(checkDbSelected()) {
+					internalQuery = InsertParser.instance().parse(query);
+//					InsertProcessor.instance().process(internalQuery,username,database);
+				}
 				break;
 			case "select":
-				internalQuery = SelectParser.instance().parse(query);
-				SelectProcessor.instance().process(internalQuery,username,database);
+				if(checkDbSelected()) {
+					internalQuery = SelectParser.instance().parse(query);
+					SelectProcessor.instance().process(internalQuery, username, database);
+				}
 				break;
 			case "update":
-//				internalQuery = UpdateParser.instance().parse(query);
-//				UpdateProcessor.instance().process(internalQuery,username,database);
+				if(checkDbSelected()) {
+//					internalQuery = UpdateParser.instance().parse(query);
+//					UpdateProcessor.instance().process(internalQuery,username,database);
+				}
 				break;
 			case "delete":
 //				internalQuery = DeleteParser.instance().parse(query);
@@ -50,6 +55,15 @@ public class QueryEngine {
 				break;
 			default:
 				System.out.println("invalid query!");
+		}
+	}
+
+	private boolean checkDbSelected(){
+		if(database == null){
+			System.out.println("Please select a Database.");
+			return false;
+		}else {
+			return true;
 		}
 	}
 }

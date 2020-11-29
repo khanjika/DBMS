@@ -29,7 +29,7 @@ public class CreateProcessor implements IProcessor {
     public boolean processCreateQuery(InternalQuery internalQuery, String query, String username, String database) {
         this.username = username;
         this.database = database;
-        if(internalQuery.getSubject().equals("database")){
+        if(internalQuery.get("type").equals("database")){
             return createDB(internalQuery);
         }else{
             return createTable(internalQuery,query, username, database);
@@ -37,7 +37,7 @@ public class CreateProcessor implements IProcessor {
     }
 
     private boolean createDB(InternalQuery internalQuery) {
-        String name = internalQuery.getOption();
+        String name = (String) internalQuery.get("name");
         String path = BASE_PATH + name;
         File file = new File(path);
         System.out.println(path);
@@ -69,7 +69,7 @@ public class CreateProcessor implements IProcessor {
         for(int i = 3; i< sqlWords.length; i+=2) {
         	colObj.put(sqlWords[i], sqlWords[i+1]);
         }
-        String tableName = internalQuery.getOption();
+        String tableName = (String) internalQuery.get("name");
         JSONObject tableObj = new JSONObject();
         
         tableObj.put("columns",colObj);

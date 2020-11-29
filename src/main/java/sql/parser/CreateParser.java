@@ -20,13 +20,13 @@ public class CreateParser implements IParser {
         String[] sqlWords = query.split(" ");
 
         String action = sqlWords[0];
-        String subject = sqlWords[1];
-        String option = sqlWords[2];
+        String type = sqlWords[1];
+        String name = sqlWords[2];
 
         InternalQuery internalQuery = new InternalQuery();
-        internalQuery.setAction(action);
-        internalQuery.setSubject(subject);
-        internalQuery.setOption(option);
+        internalQuery.set("action", action);
+        internalQuery.set("type", type);
+        internalQuery.set("name", name);
 
         return internalQuery;
     }
