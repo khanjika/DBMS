@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 import sql.InternalQuery;
 
 import java.io.*;
+import java.sql.Timestamp;
 
 public class CreateProcessor implements IProcessor {
     String BASE_PATH = "src/main/java/dataFiles/";
@@ -24,14 +25,14 @@ public class CreateProcessor implements IProcessor {
         return instance;
     }
 
-    @Override
-    public boolean process(InternalQuery internalQuery, String username, String database) {
+    
+    public boolean processCreateQuery(InternalQuery internalQuery, String query, String username, String database) {
         this.username = username;
         this.database = database;
         if(internalQuery.getSubject().equals("database")){
             return createDB(internalQuery);
         }else{
-            return createTable(internalQuery);
+            return createTable(internalQuery,query, username, database);
         }
     }
 
@@ -50,8 +51,40 @@ public class CreateProcessor implements IProcessor {
         return true;
     }
 
-    private boolean createTable(InternalQuery internalQuery) {
-//        ToDo:: create table logic
+    private boolean createTable(InternalQuery internalQuery, String query, String username, String database) {
+    	query = query.replaceAll(";", "");
+        query = query.replaceAll(",", " ");
+        query = query.replaceAll("[^a-zA-Z ]", "");
+        String[] sqlWords = query.split(" ");
+        System.out.println(sqlWords);
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        JSONObject colObj = new JSONObject();
+        JSONObject meta = new JSONObject();
+        JSONObject indexes = new JSONObject();
+        JSONArray  data = new JSONArray();
+        
+        meta.put("rows", 0);
+        meta.put("createdAt", timestamp.toString());
+        for(int i = 3; i< sqlWords.length; i+=2) {
+        	colObj.put(sqlWords[i], sqlWords[i+1]);
+        }
+        String tableName = internalQuery.getOption();
+        JSONObject tableObj = new JSONObject();
+        
+        tableObj.put("columns",colObj);
+        tableObj.put("meta",meta);
+        tableObj.put("indexes",indexes);
+        tableObj.put("data",data);
+        
+        
+        
+		try (FileWriter file = new FileWriter(BASE_PATH + database +"/"+tableName+".json")) {
+		    file.write(tableObj.toJSONString());
+		    file.flush();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
         return true;
     }
 
@@ -97,4 +130,13 @@ public class CreateProcessor implements IProcessor {
             e.printStackTrace();
         }
     }
+
+
+	@Override
+	public boolean process(InternalQuery query, String username, String database) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
 }

@@ -30,7 +30,7 @@ public class QueryEngine {
 				break;
 			case "create":
 				internalQuery = CreateParser.instance().parse(query);
-				CreateProcessor.instance().process(internalQuery,username,database);
+				CreateProcessor.instance().processCreateQuery(internalQuery,query,username,database);
 				break;
 			case "insert":
 //				internalQuery = InsertParser.instance().parse(query);

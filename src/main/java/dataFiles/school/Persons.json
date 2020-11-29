@@ -1,0 +1,4 @@
+{"indexes":{},
+"data":[],
+"columns":{"PersonID":"int","Address":"varchar","FirstName":"varchar","LastName":"varchar","City":"varchar"},"meta":
+{"createdAt":"2020-11-29 01:03:00.474","rows":0}}
