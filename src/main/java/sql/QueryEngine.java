@@ -1,10 +1,12 @@
 package sql;
 
 import sql.parser.CreateParser;
+import sql.parser.GeneralParser;
 import sql.parser.ListParser;
 import sql.parser.SelectParser;
 import sql.parser.UseParser;
 import sql.processor.CreateProcessor;
+import sql.processor.DropDatabaseProcessor;
 import sql.processor.ListProcessor;
 import sql.processor.SelectProcessor;
 import sql.processor.UseProcessor;
@@ -47,6 +49,14 @@ public class QueryEngine {
 			case "delete":
 //				internalQuery = DeleteParser.instance().parse(query);
 //				DeleteProcessor.instance().process(internalQuery,username,database);
+				break;
+			case "drop":
+				internalQuery = GeneralParser.instance().parse(query);
+				if(internalQuery.getSubject().equalsIgnoreCase("database")) {
+					DropDatabaseProcessor.instance().process(internalQuery,username,internalQuery.getOption());
+				} else {
+					//todo: add drop table code
+				}
 				break;
 			default:
 				System.out.println("invalid query!");
