@@ -17,13 +17,15 @@ public class SelectParser implements IParser {
 
     @Override
     public InternalQuery parse(String query) {
-        Pattern pattern = Pattern.compile("select\\s(.*?)from\\s(.*?)(where\\s(.*?))?;", Pattern.DOTALL);
+        query = query.replaceAll(";", "");
+        query = query+";";
+        Pattern pattern = Pattern.compile("select\\s+(.*?)\\s*from\\s+(.*?)\\s*(where\\s(.*?)\\s*?);", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(query);
         matcher.find();
 
-        String[] columns = matcher.group(1).split(",");
+        String[] columns = (String[]) matcher.group(1).split(",");
         String table = matcher.group(2);
-        String[] conditions = matcher.group(4).split(",");
+        String conditions = matcher.group(4);
 
         InternalQuery internalQuery = new InternalQuery();
         internalQuery.set("columns",columns);
