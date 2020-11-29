@@ -21,8 +21,8 @@ public class ListParser implements IParser {
         String subject = sqlWords[1];
 
         InternalQuery internalQuery = new InternalQuery();
-        internalQuery.setAction(action);
-        internalQuery.setSubject(subject);
+        internalQuery.set("action",action);
+        internalQuery.set("subject",subject);
 
         return internalQuery;
     }

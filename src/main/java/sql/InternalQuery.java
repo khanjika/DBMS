@@ -1,10 +1,24 @@
 package sql;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class InternalQuery {
+    private Map<String, Object> objectMap = new HashMap<> ();
+
     private String action = "";
+    private String tableName = "";
     private String subject = "";
     private String option = "";
     private String condition = "";
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
 
     public String getAction() {
         return action;
@@ -19,7 +33,7 @@ public class InternalQuery {
     }
 
     public void setSubject(String subject) {
-        if(subject == null){
+        if (subject == null) {
             subject = "";
         }
         this.subject = subject;
@@ -30,7 +44,7 @@ public class InternalQuery {
     }
 
     public void setOption(String option) {
-        if(option == null){
+        if (option == null) {
             option = "";
         }
         this.option = option;
@@ -41,9 +55,20 @@ public class InternalQuery {
     }
 
     public void setCondition(String condition) {
-        if(condition == null){
+        if (condition == null) {
             condition = "";
         }
         this.condition = condition;
+    }
+
+    public Object get(String key) {
+        return objectMap.get (key);
+    }
+
+    public void set(String key, Object value) {
+        if (value == null) {
+            value = "";
+        }
+        objectMap.put (key, value);
     }
 }

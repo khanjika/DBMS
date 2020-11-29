@@ -18,11 +18,11 @@ public class UseParser implements IParser {
         String[] sqlWords = query.split(" ");
 
         String action = sqlWords[0];
-        String subject = sqlWords[1];
+        String database = sqlWords[1];
 
         InternalQuery internalQuery = new InternalQuery();
-        internalQuery.setAction(action);
-        internalQuery.setSubject(subject);
+        internalQuery.set("action",action);
+        internalQuery.set("database",database);
 
         return internalQuery;
     }

@@ -6,7 +6,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import sql.InternalQuery;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ListProcessor implements IProcessor {
     String BASE_PATH = "src/main/java/dataFiles/";
@@ -29,12 +31,12 @@ public class ListProcessor implements IProcessor {
         this.username = username;
         this.database = database;
 
-        if(internalQuery.getSubject().equals("databases")){
+        if(internalQuery.get("subject").equals("databases")){
             return listDatabases(internalQuery);
-        }else if(internalQuery.getSubject().equals("tables")){
+        }else if(internalQuery.get("subject").equals("tables")){
             return listTables(internalQuery);
         }else{
-            System.out.println("Undefined item.");
+            System.out.println("Undefined subject.");
             return false;
         }
     }
@@ -59,7 +61,7 @@ public class ListProcessor implements IProcessor {
     }
 
     private boolean listTables(InternalQuery internalQuery){
-        if(internalQuery.getOption() == null){
+        if(database == null) {
             System.out.println("Please select a Database to list Tables.");
             return false;
         }else {
