@@ -24,15 +24,19 @@ public class QueryEngine {
                 ListProcessor.instance ().process (internalQuery, username, database);
                 break;
             case "create":
-                if (checkDbSelected ()) {
-                    internalQuery = CreateParser.instance ().parse (query);
-                    CreateProcessor.instance ().processCreateQuery (internalQuery, query, username, database);
-                }
+            	internalQuery = CreateParser.instance ().parse(query);
+            	if (((String) internalQuery.get("type")).equalsIgnoreCase("database")) {
+            		CreateProcessor.instance ().processCreateQuery (internalQuery, query, username, database);
+            	} else {
+            		if (checkDbSelected ()) {
+                        CreateProcessor.instance ().processCreateQuery (internalQuery, query, username, database);
+                    }	
+            	}
                 break;
             case "insert":
                 if (checkDbSelected ()) {
                     internalQuery = InsertParser.instance ().parse (query);
-//					InsertProcessor.instance().process(internalQuery,username,database);
+					InsertProcessor.instance().process(internalQuery,username,database);
                 }
                 break;
             case "select":
