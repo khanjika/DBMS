@@ -7,6 +7,18 @@
             "refKey": "PersonID",
             "type": "childTable"
           }
+        },
+        {
+          "customers": {
+            "refKey": "PersonID",
+            "type": "childTable"
+          }
+        },
+        {
+          "shipping": {
+            "refKey": "PersonID",
+            "type": "childTable"
+          }
         }
       ],
       "columns": {
@@ -18,6 +30,52 @@
   },
   {
     "Orders": {
+      "relationships": [
+        {
+          "Persons": {
+            "refKey": "PersonID",
+            "type": "parentTable"
+          }
+        }
+      ],
+      "columns": {
+        "PersonID": "int",
+        "OrderNumber": "int",
+        "OrderID": "int"
+      },
+      "foreignKey": {
+        "refColumn": "PersonID",
+        "type": "foreign",
+        "refTable": "Persons"
+      },
+      "primaryKey": "OrderID"
+    }
+  },
+  {
+    "customers": {
+      "relationships": [
+        {
+          "Persons": {
+            "refKey": "PersonID",
+            "type": "parentTable"
+          }
+        }
+      ],
+      "columns": {
+        "PersonID": "int",
+        "OrderNumber": "int",
+        "OrderID": "int"
+      },
+      "foreignKey": {
+        "refColumn": "PersonID",
+        "type": "foreign",
+        "refTable": "Persons"
+      },
+      "primaryKey": "OrderID"
+    }
+  },
+  {
+    "shipping": {
       "relationships": [
         {
           "Persons": {
