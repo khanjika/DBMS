@@ -8,6 +8,7 @@ import sql.InternalQuery;
 
 import java.io.*;
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class CreateProcessor implements IProcessor {
     String BASE_PATH = "src/main/java/dataFiles/";
@@ -56,8 +57,9 @@ public class CreateProcessor implements IProcessor {
         query = query.replaceAll(",", " ");
         query = query.replaceAll("[^a-zA-Z ]", "");
         String[] sqlWords = query.split(" ");
-        System.out.println(sqlWords);
-
+        int primaryIndex = sqlWords.length-1;
+        int foreignIndex = 0;
+        
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         JSONObject colObj = new JSONObject();
         JSONObject meta = new JSONObject();
@@ -66,6 +68,36 @@ public class CreateProcessor implements IProcessor {
         
         meta.put("rows", 0);
         meta.put("createdAt", timestamp.toString());
+        
+        if(query.toLowerCase().contains("primary key")) {
+        	for(int i = 0; i< sqlWords.length; i++) {
+        		if(sqlWords[i].equalsIgnoreCase("primary")) {
+        			primaryIndex = i;
+        			break;
+        		}
+        	}
+        	String[] primaryKeys = Arrays.copyOfRange(sqlWords, primaryIndex, primaryIndex+3);
+        	JSONObject primaryJson = new JSONObject();
+        	primaryJson.put("type","primary");
+        	indexes.put(primaryKeys[2],primaryJson);
+        }
+        if(query.toLowerCase().contains("foreign key")) {
+        	for(int i = 0; i< sqlWords.length; i++) {
+        		if(sqlWords[i].equalsIgnoreCase("foreign")) {
+        			foreignIndex = i;
+        			break;
+        		}
+        	}
+        	String[] foreignKeys = Arrays.copyOfRange(sqlWords, foreignIndex, sqlWords.length);
+        	JSONObject foreignJson = new JSONObject();
+        	foreignJson.put("type","foreign");
+        	foreignJson.put("refTable",foreignKeys[4]);
+        	foreignJson.put("refColumn",foreignKeys[5]);
+        	indexes.put(foreignKeys[2],foreignJson);
+        }
+        sqlWords = Arrays.copyOfRange(sqlWords, 0, primaryIndex);
+        System.out.println(sqlWords);
+        
         for(int i = 3; i< sqlWords.length; i+=2) {
         	colObj.put(sqlWords[i], sqlWords[i+1]);
         }
