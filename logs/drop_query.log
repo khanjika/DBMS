@@ -1,4 +1,0 @@
-2020-12-01 16:25:14,080 INFO s.p.GeneralParser [main] Parsing Query:drop database abcd
-2020-12-01 16:25:14,081 INFO s.p.GeneralParser [main] Converting SQL query to internal query form
-2020-12-01 16:25:14,090 INFO s.p.DropDatabaseProcessor [main] Checking if database exists!
-2020-12-01 16:25:14,096 INFO s.p.DropDatabaseProcessor [main] Database abcd dropped!

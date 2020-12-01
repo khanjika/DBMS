@@ -1,6 +1,0 @@
-2020-12-01 15:21:01,562 INFO s.p.InsertProcessor [main] Checking if database exists!
-2020-12-01 15:21:01,565 INFO s.p.InsertProcessor [main] DB demo created successfully!
-2020-12-01 15:23:23,941 INFO s.p.InsertProcessor [main] Checking if database exists!
-2020-12-01 15:23:23,943 INFO s.p.InsertProcessor [main] Adding indexes to table!
-2020-12-01 15:23:23,943 INFO s.p.InsertProcessor [main] Adding columns to table!
-2020-12-01 15:23:23,944 INFO s.p.InsertProcessor [main] Table shipping created successfully!

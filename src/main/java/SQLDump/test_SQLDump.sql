@@ -1,3 +1,0 @@
-create table customers (PersonID int, OrderNumber int, OrderID int, FOREIGN KEY (PersonID) REFERENCES Persons (PersonID), PRIMARY KEY (OrderID));
-create table Orders (PersonID int, OrderNumber int, OrderID int, FOREIGN KEY (PersonID) REFERENCES Persons (PersonID), PRIMARY KEY (OrderID));
-create table persons (PersonId int, name varchar, PRIMARY KEY (PersonId));
