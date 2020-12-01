@@ -28,11 +28,12 @@ public class DropTableProcessor implements IProcessor {
         this.username = username;
         this.database = database;
 
-        String subject = query.getSubject ().trim ();
+        String subject = query.getOption().trim();
         Path path = Paths.get (BASE_PATH + database + "/" + subject + ".json");
         try (FileReader reader = new FileReader (path.toString ())) {
             File tablePath = new File (path.toString ());
             //Not working
+            tablePath.delete();
             boolean ifDelete = tablePath.delete ();
             return true;
         } catch (FileNotFoundException e) {

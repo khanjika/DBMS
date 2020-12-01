@@ -21,12 +21,12 @@ public class GeneralParser implements IParser{
 
         String action = sqlWords[0];
         String subject = sqlWords[1];
-        //String option = sqlWords[2];
+        String option = sqlWords[2];
 
         InternalQuery internalQuery = new InternalQuery();
         internalQuery.setAction(action);
         internalQuery.setSubject(subject);
-        //internalQuery.setOption(option);
+        internalQuery.setOption(option);
 
         return internalQuery;
     }

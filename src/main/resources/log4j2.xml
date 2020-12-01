@@ -15,6 +15,11 @@
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
         </File>
+        <File name="CreateLogs" fileName="logs/create_query.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
         <File name="SelectLogs" fileName="logs/select_query.log">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
@@ -32,6 +37,12 @@
         </Logger>
         <Logger name="sql.processor.UseProcessor" level="info" additivity="false">
             <AppenderRef ref="UseLogs" />
+        </Logger>
+        <Logger name="sql.parser.CreateProcessor" level="info" additivity="false">
+            <AppenderRef ref="CreateLogs" />
+        </Logger>
+        <Logger name="sql.parser.CreateParser" level="info" additivity="false">
+            <AppenderRef ref="CreateLogs" />
         </Logger>
         <Logger name="sql.parser.ListParser" level="info" additivity="false">
             <AppenderRef ref="ListLogs" />

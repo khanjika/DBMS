@@ -1,9 +1,15 @@
 package sql.processor;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import logging.events.CrashListener;
+import logging.events.DatabaseListener;
+import logging.events.QueryListener;
 import sql.InternalQuery;
 
 import java.io.*;
@@ -11,6 +17,11 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 
 public class CreateProcessor implements IProcessor {
+	static final Logger logger = LogManager.getLogger(CreateProcessor.class.getName());
+    static final CrashListener crashListener = new CrashListener();
+    static final DatabaseListener databaseListener = new DatabaseListener();
+    static final QueryListener queryListener = new QueryListener();
+    
     String BASE_PATH = "src/main/java/dataFiles/";
     String DB_PATH = "src/main/java/dataFiles/databases.json";
     static CreateProcessor instance = null;
@@ -30,6 +41,7 @@ public class CreateProcessor implements IProcessor {
     public boolean processCreateQuery(InternalQuery internalQuery, String query, String username, String database) {
         this.username = username;
         this.database = database;
+        logger.info("Checking if database exists!");
         if(internalQuery.get("type").equals("database")){
             return createDB(internalQuery);
         }else{
@@ -45,9 +57,12 @@ public class CreateProcessor implements IProcessor {
         boolean bool = file.mkdir();
         if(bool){
             System.out.println("DB created successfully");
+            logger.info("DB "+name+" created successfully!");
+            databaseListener.recordEvent();
             parseDBFile(name);
         }else{
             System.out.println("Sorry couldn’t create DB");
+            crashListener.recordEvent();
         }
         return true;
     }
@@ -101,6 +116,8 @@ public class CreateProcessor implements IProcessor {
         for(int i = 3; i< sqlWords.length; i+=2) {
         	colObj.put(sqlWords[i], sqlWords[i+1]);
         }
+        logger.info("Adding indexes to table!");
+        logger.info("Adding columns to table!");
         String tableName = (String) internalQuery.get("name");
         JSONObject tableObj = new JSONObject();
         
@@ -114,8 +131,11 @@ public class CreateProcessor implements IProcessor {
 		try (FileWriter file = new FileWriter(BASE_PATH + database +"/"+tableName+".json")) {
 		    file.write(tableObj.toJSONString());
 		    file.flush();
+		    logger.info("Table "+tableName+" created successfully!");
+		    databaseListener.recordEvent();
 		} catch (IOException e) {
 		    e.printStackTrace();
+		    crashListener.recordEvent();
 		}
         return true;
     }
@@ -144,13 +164,17 @@ public class CreateProcessor implements IProcessor {
                 dbObj.put("username", username);
                 dblist.add(dbObj);
                 writeDBFile(dblist);
+                databaseListener.recordEvent();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            crashListener.recordEvent();
         } catch (IOException e) {
             e.printStackTrace();
+            crashListener.recordEvent();
         } catch (ParseException e) {
             e.printStackTrace();
+            crashListener.recordEvent();
         }
     }
 

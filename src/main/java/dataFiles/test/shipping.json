@@ -1,1 +1,0 @@
-{"indexes":{"PersonID":{"refColumn":"PersonID","type":"foreign","refTable":"Persons"},"OrderID":{"type":"primary"}},"data":[],"columns":{"PersonID":"int","OrderNumber":"int","OrderID":"int"},"meta":{"createdAt":"2020-12-01 13:09:49.862","rows":0}}
