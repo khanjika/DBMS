@@ -62,7 +62,7 @@ public class DeleteProcessor implements IProcessor {
                 JSONArray data = (JSONArray) jsonObject.get ("data");
                 for (int i = 0; i < data.size (); i++) {
                     JSONObject row = (JSONObject) data.get (i);
-                    if (row.get (conditions[0]).toString ().equals (conditions[2].trim ())) {
+                    if (row.get (conditions[0]).toString ().equals (conditions[1].trim ())) {
                         data.remove (i);
                         try (Writer out = new FileWriter (path)) {
                             out.write (jsonObject.toJSONString ());
