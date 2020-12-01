@@ -70,7 +70,7 @@ public class SQLDump {
     }
 
     private void writeDump(ArrayList<String> sqlDump, String database) {
-        try (FileWriter file = new FileWriter (ERD_PATH + database + "_SQLDump.txt")) {
+        try (FileWriter file = new FileWriter (ERD_PATH + database + "_SQLDump.sql")) {
             for (int i = 0; i < sqlDump.size (); i++) {
                 file.write (sqlDump.get (i));
                 file.append ("\n");
