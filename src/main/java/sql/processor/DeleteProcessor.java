@@ -6,22 +6,19 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import sql.InternalQuery;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.util.Set;
 
-public class DeleteProcessor implements IProcessor{
+public class DeleteProcessor implements IProcessor {
     String BASE_PATH = "src/main/java/dataFiles/";
     static DeleteProcessor instance = null;
 
     private String username = null;
     private String database = null;
 
-    public static DeleteProcessor instance(){
-        if(instance == null){
-            instance = new DeleteProcessor();
+    public static DeleteProcessor instance() {
+        if (instance == null) {
+            instance = new DeleteProcessor ();
         }
         return instance;
     }
@@ -37,7 +34,7 @@ public class DeleteProcessor implements IProcessor{
         String x = query.getCondition ().replaceAll ("[^a-zA-Z1-9]", " ");
         String[] conditions = x.split (" ");
 
-        String path = BASE_PATH+database+"/"+table+".json";
+        String path = BASE_PATH + database + "/" + table + ".json";
 
         JSONParser parser = new JSONParser ();
         try (FileReader reader = new FileReader (path)) {
@@ -81,12 +78,14 @@ public class DeleteProcessor implements IProcessor{
                 System.out.println ("Invalid column name !!");
                 return false;
             }
+        } catch (FileNotFoundException e) {
+            System.out.println ("Table not found !!");
         } catch (ParseException e) {
             e.printStackTrace ();
         } catch (IOException e) {
             e.printStackTrace ();
         }
-        System.out.println("Sorry wrong condition !!");
+        System.out.println ("Sorry wrong condition !!");
         return false;
     }
 

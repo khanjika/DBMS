@@ -6,10 +6,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import sql.InternalQuery;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.util.Set;
 
 public class UpdateProcessor implements IProcessor {
@@ -40,7 +37,7 @@ public class UpdateProcessor implements IProcessor {
         String x = query.getCondition ().replaceAll ("[^a-zA-Z1-9]", " ");
         String[] conditions = x.split (" ");
 
-        String path = BASE_PATH+database+"/"+table+".json";
+        String path = BASE_PATH + database + "/" + table + ".json";
 
         JSONParser parser = new JSONParser ();
         try (FileReader reader = new FileReader (path)) {
@@ -89,12 +86,14 @@ public class UpdateProcessor implements IProcessor {
                 System.out.println ("Invalid column name !!");
                 return false;
             }
+        } catch (FileNotFoundException e) {
+            System.out.println ("Table not found !!!");
         } catch (ParseException e) {
             e.printStackTrace ();
         } catch (IOException e) {
             e.printStackTrace ();
         }
-        System.out.println("Sorry wrong condition !!");
+        System.out.println ("Sorry wrong condition !!");
         return false;
     }
 
