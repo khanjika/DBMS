@@ -13,7 +13,7 @@ public class DatabaseSystem {
         queryEngine = new QueryEngine();
     }
 
-    public boolean authenticate(){
+    public String authenticate(){
         if(user == null){
             System.out.println("Please authenticate to continue:");
             Login login = new Login();
@@ -23,7 +23,7 @@ public class DatabaseSystem {
             String password = sc.nextLine();
             user = login.verification(userName, password);
         }
-        return user != null;
+        return user;
     }
 
     public void init(){
