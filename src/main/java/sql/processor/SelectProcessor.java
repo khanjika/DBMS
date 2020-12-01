@@ -37,7 +37,9 @@ public class SelectProcessor implements IProcessor {
         String path = BASE_PATH+database+"/"+table+".json";
         JSONObject jsonObject = readFile(path);
         JSONArray rows = (JSONArray) jsonObject.get("data");
-        rows = filterRows(rows,conditions);
+        if(conditions.length() > 0){
+            rows = filterRows(rows,conditions);
+        }
 
         if(columns.length ==1 && columns[0].equals("*")) {
             JSONObject tblColumns = (JSONObject) jsonObject.get("columns");

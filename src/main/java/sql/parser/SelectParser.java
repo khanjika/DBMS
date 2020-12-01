@@ -17,9 +17,9 @@ public class SelectParser implements IParser {
 
     @Override
     public InternalQuery parse(String query) {
-        query = query.replaceAll(";", "");
+        query = query.replace(";", "");
         query = query+";";
-        Pattern pattern = Pattern.compile("select\\s+(.*?)\\s*from\\s+(.*?)\\s*(where\\s(.*?)\\s*?);", Pattern.DOTALL);
+        Pattern pattern = Pattern.compile("select\\s+(.*?)\\s*from\\s+(.*?)\\s*(where\\s(.*?)\\s*)?;", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(query);
         matcher.find();
 
