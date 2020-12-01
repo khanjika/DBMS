@@ -43,7 +43,6 @@ public class UseProcessor implements IProcessor {
         this.username = username;
         this.database = database;
 
-
         String newDatabase = (String) query.get("database");
         boolean dbExists = false;
         JSONParser parser = new JSONParser();
@@ -75,9 +74,7 @@ public class UseProcessor implements IProcessor {
             logger.info("Changing database from '"+ this.database +"' to '"+ newDatabase+"'" );
         }
         this.database = newDatabase;
-        String origPath = new File("").getAbsolutePath();
-        Path path = Paths.get ("src/main/java/dataFiles/" + database);
-        //Path path = Path.of(origPath+"/"+BASE_PATH + this.database);
+        Path path = Paths.get ("src/main/java/dataFiles/" + this.database);
         if (Files.exists(path)) {
             queryListener.recordEvent();
             return true;

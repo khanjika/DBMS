@@ -59,10 +59,7 @@ public class DropDatabaseProcessor implements IProcessor {
         try (FileReader reader = new FileReader(DB_PATH)) {
             //Read JSON file
             Object obj = parser.parse(reader);
-
             JSONArray dblist = (JSONArray) obj;
-            System.out.println(dblist);
-
             dblist.forEach(db -> {
                 System.out.println(db);
                 if(((JSONObject) db).get("name").equals(database)) {

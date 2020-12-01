@@ -148,8 +148,6 @@ public class CreateProcessor implements IProcessor {
             Object obj = parser.parse(reader);
 
             JSONArray dblist = (JSONArray) obj;
-            System.out.println(dblist);
-
             dblist.forEach(db -> {
                 System.out.println(db);
                 if(((JSONObject) db).get("name") == name) {
