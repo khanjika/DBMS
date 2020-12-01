@@ -69,7 +69,7 @@ public class DeleteProcessor implements IProcessor {
                         } catch (IOException e) {
                             e.printStackTrace ();
                         }
-                        System.out.println ("Update done successfully !!");
+                        System.out.println ("Delete done successfully !!");
                         return true;
                     }
                 }
