@@ -38,7 +38,7 @@
         <Logger name="sql.processor.UseProcessor" level="info" additivity="false">
             <AppenderRef ref="UseLogs" />
         </Logger>
-        <Logger name="sql.parser.CreateProcessor" level="info" additivity="false">
+        <Logger name="sql.processor.CreateProcessor" level="info" additivity="false">
             <AppenderRef ref="CreateLogs" />
         </Logger>
         <Logger name="sql.parser.CreateParser" level="info" additivity="false">
