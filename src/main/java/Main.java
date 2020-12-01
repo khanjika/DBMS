@@ -1,9 +1,11 @@
 import java.util.Scanner;
 
-import erdGenerator.ERDGenerator;
+import datadictionarygenerator.DataDictionaryGenerator;
+import erdgenerator.ERDGenerator;
 
 public class Main {
 	private static Scanner sc;
+
     public static void main(String[] args) {
         System.out.println ("*** Welcome to DBMS5408!***");
         System.out.println ("");
@@ -28,13 +30,16 @@ public class Main {
             	break;
             case "3":
             	ERDGenerator erdObj = new ERDGenerator();
-            	System.out.println("Enter database name");
+            	System.out.println("Enter a database name");
             	String database = sc.nextLine();
             	erdObj.generateERD(username, database);
             	break;
             case "4":
-            	//call Generate data dictionary
-            	break;
+                DataDictionaryGenerator dataDictionaryGenerator = new DataDictionaryGenerator();
+                System.out.println("Enter a database name");
+                String database2 = sc.nextLine();
+                dataDictionaryGenerator.generate(username,database2);
+                break;
             default:
             	System.out.println("Invalid input!");
             	

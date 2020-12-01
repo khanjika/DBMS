@@ -1,0 +1,93 @@
+[
+  {
+    "items": {
+      "teacherID": {
+        "dataType": "integer",
+        "length": 11
+      },
+      "subjectID": {
+        "dataType": "integer",
+        "length": 11
+      }
+    },
+    "entity": "teacherSubjects"
+  },
+  {
+    "items": {
+      "PersonID": "int",
+      "Address": "varchar",
+      "FirstName": "varchar",
+      "LastName": "varchar",
+      "City": "varchar"
+    },
+    "entity": "Persons"
+  },
+  {
+    "items": {
+      "firstName": {
+        "dataType": "string",
+        "length": 125
+      },
+      "lastName": {
+        "dataType": "string",
+        "length": 125
+      },
+      "teacherID": {
+        "dataType": "integer",
+        "length": 11
+      },
+      "email": {
+        "dataType": "string",
+        "length": 60
+      }
+    },
+    "entity": "teachers"
+  },
+  {
+    "items": {
+      "title": {
+        "dataType": "string",
+        "length": 255
+      },
+      "subjectID": {
+        "dataType": "integer",
+        "length": 11
+      }
+    },
+    "entity": "subjects"
+  },
+  {
+    "items": {
+      "studentID": {
+        "dataType": "integer",
+        "length": 11
+      },
+      "subjectID": {
+        "dataType": "integer",
+        "length": 11
+      }
+    },
+    "entity": "studentSubjects"
+  },
+  {
+    "items": {
+      "studentid": {
+        "dataType": "integer",
+        "length": 11
+      },
+      "firstname": {
+        "dataType": "string",
+        "length": 125
+      },
+      "email": {
+        "dataType": "string",
+        "length": 60
+      },
+      "lastname": {
+        "dataType": "string",
+        "length": 125
+      }
+    },
+    "entity": "students"
+  }
+]
