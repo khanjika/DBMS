@@ -8,14 +8,22 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import logging.events.CrashListener;
+import logging.events.QueryListener;
 import sql.InternalQuery;
 
 public class DropDatabaseProcessor implements IProcessor {
+	static final Logger logger = LogManager.getLogger(DropDatabaseProcessor.class.getName());
+    static final CrashListener crashListener = new CrashListener();
+    static final QueryListener queryListener = new QueryListener();
+    
 	static DropDatabaseProcessor instance = null;
 	private String username = null;
     private String database = null;
@@ -38,14 +46,16 @@ public class DropDatabaseProcessor implements IProcessor {
         	//Path path = Path.of(BASE_PATH + database);
         	File dbPath = new File(path.toString());
         	dbPath.delete();
+        	logger.info("Database "+database+ " dropped!");
         	return true;
         }      
-        
+        logger.info("Database "+database+ " not dropped!");
         return false;
     }
 	private boolean ifDatabaseExists(String username, String database) {
         databaseExists = false;
         JSONParser parser = new JSONParser();
+        logger.info("Checking if database exists!");
         try (FileReader reader = new FileReader(DB_PATH)) {
             //Read JSON file
             Object obj = parser.parse(reader);
@@ -64,12 +74,15 @@ public class DropDatabaseProcessor implements IProcessor {
            return databaseExists;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            crashListener.recordEvent();
             return false;
         } catch (IOException e) {
             e.printStackTrace();
+            crashListener.recordEvent();
             return false;
         } catch (ParseException e) {
             e.printStackTrace();
+            crashListener.recordEvent();
             return false;
         }
     }

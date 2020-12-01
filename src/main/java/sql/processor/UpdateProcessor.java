@@ -1,15 +1,24 @@
 package sql.processor;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import logging.events.CrashListener;
+import logging.events.QueryListener;
 import sql.InternalQuery;
 
 import java.io.*;
 import java.util.Set;
 
 public class UpdateProcessor implements IProcessor {
+	static final Logger logger = LogManager.getLogger(UpdateProcessor.class.getName());
+    static final CrashListener crashListener = new CrashListener();
+    static final QueryListener queryListener = new QueryListener();
+    
     String BASE_PATH = "src/main/java/dataFiles/";
     static UpdateProcessor instance = null;
 
@@ -30,6 +39,7 @@ public class UpdateProcessor implements IProcessor {
         int columnFlag = 0;
         int conditionFlag = 0;
 
+        logger.info("Identifying requested columns");
         String table = query.getTableName ().trim ();
         String y = query.getOption ().replaceAll ("[^a-zA-Z]", " ");
         String[] columnValue = y.split (" ");
@@ -63,7 +73,7 @@ public class UpdateProcessor implements IProcessor {
                     conditionFlag = 1;
                 }
             }
-
+            logger.info("Identifying requested conditions");
             if (columnFlag == 1 && conditionFlag == 1) {
                 JSONArray data = (JSONArray) jsonObject.get ("data");
                 for (int i = 0; i < data.size (); i++) {
@@ -88,10 +98,13 @@ public class UpdateProcessor implements IProcessor {
             }
         } catch (FileNotFoundException e) {
             System.out.println ("Table not found !!!");
+            crashListener.recordEvent();
         } catch (ParseException e) {
             e.printStackTrace ();
+            crashListener.recordEvent();
         } catch (IOException e) {
             e.printStackTrace ();
+            crashListener.recordEvent();
         }
         System.out.println ("Sorry wrong condition !!");
         return false;

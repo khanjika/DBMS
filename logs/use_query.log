@@ -16,3 +16,12 @@
 2020-12-01 15:39:38,489 INFO s.p.UseParser [main] Parsing Query:use demo
 2020-12-01 15:39:38,490 INFO s.p.UseParser [main] Converting SQL query to internal query form
 2020-12-01 15:39:38,491 INFO s.p.UseProcessor [main] Selecting database 'null'
+2020-12-01 16:12:02,002 INFO s.p.UseParser [main] Parsing Query:use test
+2020-12-01 16:12:02,004 INFO s.p.UseParser [main] Converting SQL query to internal query form
+2020-12-01 16:12:02,007 INFO s.p.UseProcessor [main] Selecting database 'null'
+2020-12-01 16:24:55,738 INFO s.p.UseParser [main] Parsing Query:use abc
+2020-12-01 16:24:55,740 INFO s.p.UseParser [main] Converting SQL query to internal query form
+2020-12-01 16:24:55,743 INFO s.p.UseProcessor [main] Selecting database 'null'
+2020-12-01 16:25:05,925 INFO s.p.UseParser [main] Parsing Query:use abcd
+2020-12-01 16:25:05,925 INFO s.p.UseParser [main] Converting SQL query to internal query form
+2020-12-01 16:25:05,926 INFO s.p.UseProcessor [main] Changing database from 'abc' to 'abcd'
