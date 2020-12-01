@@ -5,10 +5,14 @@ import logging.events.DatabaseListener;
 import logging.events.QueryListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import sql.InternalQuery;
 import sql.parser.UseParser;
 
 import java.io.File;
+import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,8 +45,32 @@ public class UseProcessor implements IProcessor {
 
 
         String newDatabase = (String) query.get("database");
+        boolean dbExists = false;
+        JSONParser parser = new JSONParser();
+        try (FileReader reader = new FileReader(DB_PATH)) {
+            Object obj = parser.parse(reader);
+            JSONArray dblist = (JSONArray) obj;
+            for(Object db : dblist){
+                JSONObject row = (JSONObject) db;
+                if(row.get("name").equals(newDatabase)){
+                    if(!row.get("username").equals(username)){
+                        System.out.println("Database doesn't belongs to you.");
+                        return false;
+                    }
+                    dbExists = true;
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if(!dbExists){
+            System.out.println("Database doesn't exist.");
+            return false;
+        }
+
         if(this.database == null){
-            logger.info("Selecting database '"+ this.database+"'");
+            logger.info("Selecting database '"+ newDatabase+"'");
         }else{
             logger.info("Changing database from '"+ this.database +"' to '"+ newDatabase+"'" );
         }
