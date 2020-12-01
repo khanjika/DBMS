@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,7 +34,8 @@ public class DropDatabaseProcessor implements IProcessor {
         this.database = database;
         boolean databaseExistsForUser = ifDatabaseExists(username, database);
         if(databaseExistsForUser) {
-        	Path path = Path.of(BASE_PATH + database);
+            Path path = Paths.get ("src/main/java/dataFiles/" + database);
+        	//Path path = Path.of(BASE_PATH + database);
         	File dbPath = new File(path.toString());
         	dbPath.delete();
         	return true;

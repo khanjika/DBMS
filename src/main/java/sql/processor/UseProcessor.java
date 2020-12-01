@@ -48,7 +48,8 @@ public class UseProcessor implements IProcessor {
         }
         this.database = newDatabase;
         String origPath = new File("").getAbsolutePath();
-        Path path = Path.of(origPath+"/"+BASE_PATH + this.database);
+        Path path = Paths.get ("src/main/java/dataFiles/" + database);
+        //Path path = Path.of(origPath+"/"+BASE_PATH + this.database);
         if (Files.exists(path)) {
             queryListener.recordEvent();
             return true;
