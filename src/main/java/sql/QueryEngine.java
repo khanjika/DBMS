@@ -54,8 +54,10 @@ public class QueryEngine {
                 }
                 break;
             case "delete":
-//				internalQuery = DeleteParser.instance().parse(query);
-//				DeleteProcessor.instance().process(internalQuery,username,database);
+				internalQuery = DeleteParser.instance().parse(query);
+                if (internalQuery != null) {
+                    DeleteProcessor.instance ().process (internalQuery, username, database);
+                }
 				break;
 			case "drop":
 				internalQuery = GeneralParser.instance().parse(query);
